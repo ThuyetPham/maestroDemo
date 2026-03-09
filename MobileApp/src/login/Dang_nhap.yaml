@@ -1,0 +1,27 @@
+appId: net.citigo.kiotviet.manager
+---
+- launchApp:
+    clearState: true
+
+# - tapOn:
+#     id: login_btn
+- tapOn: Đã có tài khoản? Đăng nhập
+
+- tapOn:
+    id: tvShop
+- eraseText
+- inputText: 'auto1'
+- tapOn:
+    id: tvUsername
+- eraseText
+- inputText: 'admin'
+- tapOn:
+    id: textPassword
+- eraseText
+- inputText: 'Kiotviet12345678'
+- tapOn:
+    id: buttonLogin
+- extendedWaitUntil:
+    visible: 'Tổng quan
+      Tab 1 trong tổng số 5'
+    timeout: 10000

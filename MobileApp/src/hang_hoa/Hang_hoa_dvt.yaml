@@ -1,0 +1,70 @@
+appId: net.citigo.kiotviet.manager
+---
+- launchApp:
+    clearState: false
+
+# Load dữ liệu hàng hóa
+- runScript: ../../flows/data/Hang_hoa/HH_dvt.js
+
+# Điều hướng đến màn hình Hàng hóa (nếu chưa ở đó)
+# - tapOn:
+# text: "Hàng hoá"
+# index: 0
+# optional: true
+- tapOn: |-
+    Hàng hoá
+    Tab 2 trong tổng số 5
+
+# Mở form tạo hàng hóa mới
+- runFlow:
+    file: ../../flows/keywords/Hang_hoa/form_hh_thuong.yaml
+    env:
+      code: ${output.dvt_1.code}
+      name: ${output.dvt_1.name}
+      category: ${output.dvt_1.category}
+      cost: ${output.dvt_1.cost}
+      price: ${output.dvt_1.price}
+      onhand: ${output.dvt_1.onhand}
+- scrollUntilVisible:
+    element:
+      text: Thêm đơn vị tính
+    direction: DOWN
+
+- tapOn:
+    id: create_product_unit_section
+- tapOn: |-
+    Tên đơn vị
+    *
+- inputText: ${output.dvt_1.unit1}
+- tapOn: Thêm đơn vị tính
+- tapOn:
+    text: |-
+      Tên đơn vị
+      *
+    index: 1
+- inputText: ${output.dvt_1.unit2}
+- tapOn: |-
+    Số lượng quy đổi
+    *
+- inputText: ${output.dvt_1.quantity}
+- tapOn:
+    text: Giá bán
+    index: 1
+- eraseText
+- inputText: ${output.dvt_1.price}
+- tapOn: Xong
+- tapOn: Lưu
+# Chờ lưu thành công
+- extendedWaitUntil:
+    visible: "Hàng hoá"
+    timeout: 10000
+
+- assertNotVisible: "Thêm hàng hóa thành công"
+- runFlow:
+    file: ../../flows/keywords/Hang_hoa/xoa_hh.yaml
+    env:
+      name: ${output.dvt_1.name}
+- runFlow:
+    file: ../../flows/keywords/Hang_hoa/xoa_hh.yaml
+    env:
+      name: ${output.dvt_1.name}

@@ -1,0 +1,28 @@
+appId: net.citigo.kiotviet.manager
+---
+- tapOn: |-
+    Tên đơn vị
+    *
+- inputText: đơn vị 1
+
+- repeat:
+    while:
+      true: ${output.currentIndex < output.totalItems}
+    commands:
+      # Lấy thông tin hàng hóa hiện tại
+      - tapOn: Thêm đơn vị tính
+      - tapOn:
+          text: |-
+            Tên đơn vị
+            *
+          index: 1
+      - inputText: đơn vị 2
+      - tapOn: |-
+          Số lượng quy đổi
+          *
+      - inputText: "2"
+      - tapOn:
+          text: Giá bán
+          index: 1
+      - inputText: "2000"
+

@@ -1,0 +1,18 @@
+# report: maestro test --format=HTML-DETAILED --output=report.html src/*
+# run: maestro test runtestE2E.yaml
+
+appId: net.citigo.kiotviet.manager
+
+---
+# Khởi động ứng dụng
+# - launchApp:
+#     clearState: false
+
+# Chạy tất cả các test flows
+# 1. Đăng nhập
+- runFlow: src/login/Dang_nhap.yaml
+
+# 2. Test các chức năng hàng hóa
+- runFlow: src/hang_hoa/Hang_hoa_dvt.yaml
+- runFlow: src/hang_hoa/Tao_hh_thuong.yaml
+# - runFlow: src/hang_hoa/Tao_list_hh_thuong.yaml

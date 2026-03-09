@@ -1,0 +1,46 @@
+appId: net.citigo.kiotviet.manager
+---
+# - launchApp:
+#     clearState: false
+
+# Load dữ liệu hàng hóa
+- runScript: ../../flows/data/Hang_hoa/Hang_hoa_thuong.js
+
+# Điều hướng đến màn hình Hàng hóa
+- tapOn:
+    text: "Hàng hoá"
+    index: 0
+    optional: true
+
+# Loop tạo nhiều hàng hóa
+- repeat:
+    while:
+      true: ${output.currentIndex < output.totalItems}
+    commands:
+      # Lấy thông tin hàng hóa hiện tại
+      - evalScript: ${output.currentItem = output.list_hang_hoa_thuong[output.currentIndex]}
+
+      # Mở form tạo hàng hóa mới
+      - runFlow:
+          file: ../../flows/keywords/Hang_hoa/form_hh_thuong.yaml
+          env:
+            code: ${output.currentItem.code}
+            name: ${output.currentItem.name}
+            category: ${output.currentItem.category}
+            cost: ${output.currentItem.cost}
+            price: ${output.currentItem.price}
+            onhand: ${output.currentItem.onhand}
+      # Lưu hàng hóa
+      - tapOn: Lưu
+
+      # Chờ lưu thành công
+      - extendedWaitUntil:
+          visible: "Hàng hoá"
+          timeout: 10000
+      # Tăng counter để chuyển sang hàng hóa tiếp theo
+      - evalScript: ${output.currentIndex++}
+      - assertNotVisible: "Thêm hàng hóa thành công"
+      - runFlow:
+          file: ../../flows/keywords/Hang_hoa/xoa_hh.yaml
+          env:
+            name: ${output.currentItem.name}

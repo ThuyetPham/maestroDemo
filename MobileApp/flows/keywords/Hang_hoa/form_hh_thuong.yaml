@@ -1,0 +1,37 @@
+appId: net.citigo.kiotviet.manager
+---
+- tapOn:
+    point: 80%,80%
+- tapOn: Thêm hàng hóa
+
+# Điền thông tin Mã hàng
+- tapOn: Mã hàng
+- inputText: ${code}
+
+# Điền thông tin Tên hàng
+- tapOn: |-
+    Tên hàng
+    *
+- inputText: ${name}
+# Chọn Nhóm hàng
+- tapOn: |-
+    Nhóm hàng
+    *
+- tapOn: ${category}
+# Điền Giá vốn
+- tapOn: Giá vốn
+- inputText: ${cost}
+
+# Điền Giá bán
+- tapOn: Giá bán
+- inputText: ${price}
+
+# Scroll xuống để thấy Tồn kho
+- swipe:
+    from:
+      text: Giá vốn
+    direction: UP
+
+# Điền Tồn kho
+- tapOn: Tồn kho
+- inputText: ${onhand}
